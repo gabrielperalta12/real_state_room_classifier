@@ -102,50 +102,44 @@ real_estate_room_classifier/
 ├── requirements.txt
 ├── setup.sh                          # Setup automático desde Google Drive
 ├── .gitignore
-├── .env                             # Roboflow API key (gitignored)
 ├── data/
-│   ├── raw/                         # Imágenes originales por clase
+│   ├── raw/                         # 10,150 imágenes originales por clase
 │   ├── splits/
 │   │   ├── train/                   # 14,492 imágenes (8,663 original + 5,829 augmented, 700/clase)
 │   │   └── test/                    # 1,520 imágenes (original, sin augmentation)
-│   └── augmented/                   # Imágenes augmentadas (legacy)
+│   └── preprocessed/                # Listings scrapeados
 ├── models/
-│   ├── best_classifier.joblib       # SVM RBF legacy
 │   └── yolo_furniture/
 │       └── best.pt                  # YOLO11 fine-tuned (24 clases, complemento)
-├── models_balanced/
-│   └── best_classifier.joblib           # SVM RBF CLIP legacy (17 clases)
 ├── outputs/
-│   ├── embeddings/                      # Embeddings por modelo
-│   │   ├── clip/
-│   │   │   ├── train/                   # CLIP embeddings train (14,492 × 512)
-│   │   │   └── test/                    # CLIP embeddings test (1,520 × 512)
-│   │   ├── dinov2/
-│   │   │   ├── train/                   # DINOv2 embeddings train (14,492 × 768)
-│   │   │   └── test/                    # DINOv2 embeddings test (1,520 × 768)
-│   │   └── place365/
-│   │       ├── train/                   # Place365 embeddings train (14,492 × 2048)
-│   │       └── test/                    # Place365 embeddings test (1,520 × 2048)
-│   ├── comparison/                      # CLIP vs DINOv2 vs Place365 vs Zero-shot
+│   ├── comparison/                  # CLIP vs DINOv2 vs Place365 vs Zero-shot
 │   │   ├── model_comparison.csv
 │   │   ├── comparison.png
-│   │   ├── full_metrics.json
-│   │   ├── embeddings/                  # Embeddings generados por compare_models
-│   │   └── models/                      # Modelos guardados por backbone
+│   │   ├── embeddings/              # Embeddings generados por compare_models
+│   │   └── models/                  # Clasificadores entrenados por backbone
 │   │       ├── clip/
 │   │       │   ├── best_classifier.joblib   # SVM RBF (89.0% F1)
-│   │       │   ├── classification_report.csv
-│   │       │   └── model_comparison.csv
+│   │       │   ├── model_comparison.csv
+│   │       │   ├── test_classification_report.csv
+│   │       │   └── test_per_class_metrics.csv
 │   │       ├── dinov2/
 │   │       │   ├── best_classifier.joblib   # SVM RBF (88.4% F1)
-│   │       │   ├── classification_report.csv
-│   │       │   └── model_comparison.csv
+│   │       │   ├── model_comparison.csv
+│   │       │   ├── test_classification_report.csv
+│   │       │   └── test_per_class_metrics.csv
 │   │       └── place365/
 │   │           ├── best_classifier.joblib   # XGBoost (86.2% F1)
-│   │           ├── classification_report.csv
-│   │           └── model_comparison.csv
-│   ├── figures/                         # Confusion matrices y gráficos
-│   └── metrics/                         # CSVs de métricas
+│   │           ├── model_comparison.csv
+│   │           ├── test_classification_report.csv
+│   │           └── test_per_class_metrics.csv
+├── report/
+│   ├── paper_ieee/                  # Paper IEEE (English)
+│   │   ├── paper.tex
+│   │   └── paper.pdf
+│   ├── presentation/                # Beamer presentation (Spanish)
+│   │   ├── presentation.tex
+│   │   └── presentation.pdf
+│   └── references/                  # Imágenes de referencia
 ├── src/
 │   ├── config/__init__.py           # Rutas del proyecto
 │   ├── labels.py                    # 17 clases + 24 clases YOLO
@@ -291,23 +285,23 @@ python -m src.ml.extract_embeddings \
 # Entrenar los 4 modelos (auto-detecta train/test splits: 14,492 train / 1,520 test)
 python -m src.ml.train \
     --input_dir outputs/embeddings/clip \
-    --output_dir models_balanced
+    --output_dir outputs/comparison/models/clip
 
 # Con XGBoost tuning
 python -m src.ml.train \
     --input_dir outputs/embeddings/clip \
-    --output_dir models_balanced \
+    --output_dir outputs/comparison/models/clip \
     --tune_xgboost \
     --use_gpu
 ```
 
-**Artefactos generados en `models_balanced/`:**
+**Artefactos generados en `outputs/comparison/models/`:**
 
 ```
-models_balanced/
-├── best_classifier.joblib        # Mejor modelo (Pipeline: StandardScaler + Classifier)
+outputs/comparison/models/clip/
+├── best_classifier.joblib        # Pipeline: StandardScaler + Classifier
 ├── model_comparison.csv          # Comparación de los 4 classifiers
-└── classification_report.csv     # Métricas detalladas del mejor modelo
+└── test_classification_report.csv # Métricas detalladas del mejor modelo
 ```
 
 ### 6. Evaluar modelo pre-entrenado
@@ -365,16 +359,16 @@ outputs/comparison/
 └── models/                       # Clasificadores entrenados por modelo
     ├── clip/
     │   ├── best_classifier.joblib    # SVM RBF (89.0% F1)
-    │   ├── classification_report.csv
-    │   └── model_comparison.csv
+    │   ├── model_comparison.csv
+    │   └── test_classification_report.csv
     ├── dinov2/
     │   ├── best_classifier.joblib    # SVM RBF (88.4% F1)
-    │   ├── classification_report.csv
-    │   └── model_comparison.csv
+    │   ├── model_comparison.csv
+    │   └── test_classification_report.csv
     └── place365/
         ├── best_classifier.joblib    # XGBoost (86.2% F1)
-        ├── classification_report.csv
-        └── model_comparison.csv
+        ├── model_comparison.csv
+        └── test_classification_report.csv
 ```
 
 ### 8. Detectar objetos con YOLO
@@ -476,13 +470,22 @@ La app permite elegir entre:
 
 ## Archivos generados
 
-- `outputs/figures/confusion_matrix_*.png` — Matrices de confusión por modelo
-- `outputs/figures/confusion_matrix_*_normalized.png` — Matrices normalizadas
-- `outputs/figures/per_class_metrics_*.png` — Métricas por clase (barras)
-- `outputs/comparison/comparison.png` — Comparación de modelos (4 modelos)
-- `outputs/comparison/model_comparison.csv` — Comparación numérica
-- `outputs/comparison/models/*/classification_report.csv` — Reportes detallados por modelo
-- `outputs/comparison/models/*/best_classifier.joblib` — Modelos por backbone (CLIP, DINOv2, Place365)
+Los archivos de evaluación se guardan junto al modelo en `outputs/comparison/models/`:
+
+```
+outputs/comparison/models/{clip,dinov2,place365}/
+├── best_classifier.joblib              # Modelo entrenado (Pipeline)
+├── model_comparison.csv                # Métricas del backbone
+├── test_classification_report.csv      # Métricas detalladas (test)
+├── test_per_class_metrics.csv          # Métricas por clase
+├── confusion_matrix.png                # Matriz de confusión
+├── confusion_matrix_normalized.png     # Matriz normalizada
+└── per_class_metrics.png               # Gráfico de barras por clase
+```
+
+Otros archivos generados:
+- `outputs/comparison/model_comparison.csv` — Comparación numérica de todos los modelos
+- `outputs/comparison/comparison.png` — Gráfico de barras comparativo
 
 ## Limitaciones
 
