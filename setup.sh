@@ -2,30 +2,22 @@
 # ============================================================
 # Real Estate Room Classifier — Environment Setup
 # ============================================================
-# Usage:
-#   1. Upload project_data.zip to Google Drive
-#   2. Get the file ID from the share link:
-#      https://drive.google.com/file/d/<FILE_ID>/view
-#   3. Run:
-#      bash setup.sh <GOOGLE_DRIVE_FILE_ID>
+# Descarga datos etiquetados, modelos entrenados y embeddings
+# desde Google Drive y configura el entorno automáticamente.
+#
+# Uso:
+#   bash setup.sh                    # Usa el ID por defecto
+#   bash setup.sh <CUSTOM_FILE_ID>  # Usa un ID personalizado
 # ============================================================
 
 set -euo pipefail
 
-FILE_ID="${1:-}"
+# Google Drive file ID (datos etiquetados + modelos + embeddings)
+DEFAULT_FILE_ID="1g82NR2-zNttrewfwm0NgD9_qlwyAM1wz"
+FILE_ID="${1:-$DEFAULT_FILE_ID}"
 PROJECT_DIR="$(cd "$(dirname "$0")" && pwd)"
 VENV_DIR="$PROJECT_DIR/.venv"
 ZIP_NAME="project_data.zip"
-
-if [ -z "$FILE_ID" ]; then
-    echo "Usage: bash setup.sh <GOOGLE_DRIVE_FILE_ID>"
-    echo ""
-    echo "To get the file ID:"
-    echo "  1. Upload project_data.zip to Google Drive"
-    echo "  2. Right-click → Share → Copy link"
-    echo "  3. Extract ID from: https://drive.google.com/file/d/<FILE_ID>/view"
-    exit 1
-fi
 
 echo "============================================"
 echo " Real Estate Room Classifier — Setup"

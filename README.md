@@ -42,16 +42,20 @@ Urbania.pe (Selenium) → CLIP Auto-label → Augmentation → Train/Test Split
 
 ## Pipeline
 
+Los pasos 4-9 se ejecutan automáticamente con un solo comando:
+
+```bash
+python -m src.ml.compare_models --data_dir data/splits --output_dir outputs/comparison
+```
+
+O individualmente:
+
 1. **Scraping**: Selenium para extraer imágenes de Urbania.pe (carousel, lazy-load)
 2. **Auto-labeling**: CLIP clasifica imágenes y las organiza en carpetas
 3. **Revisión manual + Airbnb**: Revisión manual de carpetas + descarga de imágenes adicionales de Airbnb para complementar clases débiles
-4. **Split train/test**: Separación ANTES de augmentation para evitar data leakage
-5. **Data augmentation**: Balanceo de clases con torchvision (flip, brillo, contraste, saturación, blur, recorte suave)
-6. **Preprocesamiento**: Cada modelo usa su pipeline de preprocesamiento antes de generar embeddings
-7. **Embeddings**: Extracción de representaciones vectoriales con CLIP, DINOv2 o Place365
-8. **Entrenamiento**: 4 clasificadores con comparación automática + XGBoost tuning
-9. **Evaluación**: Confusion matrices, métricas por clase, comparación de modelos
-10. **Web app**: Streamlit con 3 modos (zero-shot, ML, ML+YOLO)
+4. **Split train/test + Augmentation**: `python -m src.ml.augment --data_dir data/raw --output_dir data/splits --target_count 700 --test_split 0.2`
+5. **Comparar modelos**: `python -m src.ml.compare_models --data_dir data/splits --output_dir outputs/comparison`
+6. **Web app**: `streamlit run src/web/app.py`
 
 ## Preprocesamiento por Modelo
 
@@ -174,15 +178,19 @@ real_estate_room_classifier/
 git clone https://github.com/gabrielperalta12/real_state_room_classifier.git
 cd real_state_room_classifier
 
-# 2. Descargar datos y modelos desde Google Drive
-# Link: https://drive.google.com/file/d/1g82NR2-zNttrewfwm0NgD9_qlwyAM1wz/view?usp=sharing
-# Descargar project_data.zip y ejecutar:
-bash setup.sh <FILE_ID>
+# 2. Ejecutar setup (descarga datos y modelos desde Google Drive)
+bash setup.sh
 
 # 3. Ejecutar la app
 source .venv/bin/activate
 streamlit run src/web/app.py
 ```
+
+**¿Qué contiene el ZIP de Google Drive?** ([link](https://drive.google.com/file/d/1g82NR2-zNttrewfwm0NgD9_qlwyAM1wz/view?usp=sharing)):
+- 10,150 imágenes etiquetadas en 17 categorías de ambientes
+- Train/test splits (14,492 train / 1,520 test)
+- Embeddings pre-extraídos (CLIP, DINOv2, Place365)
+- 3 modelos entrenados: SVM CLIP (89.0% F1), SVM DINOv2 (88.4% F1), XGBoost Place365 (86.2% F1)
 
 Requisitos: Python 3.10+, CUDA 13.2 con PyTorch cu126.
 
