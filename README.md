@@ -42,14 +42,26 @@ Urbania.pe (Selenium) → CLIP Auto-label → Augmentation → Train/Test Split
 
 ## Pipeline
 
-1. **Scraping**: Selenium para extraer imágenes de Urbania.pe (carousel, lazy-load)
-2. **Auto-labeling**: CLIP clasifica imágenes y las organiza en carpetas
-3. **Revisión manual + Airbnb**: Revisión manual de carpetas + descarga de imágenes de Airbnb
-4. **Split + Augmentation**: `python -m src.ml.augment --data_dir data/raw --output_dir data/splits --target_count 700 --test_split 0.2`
-5. **Comparar modelos**: `python -m src.ml.compare_models --data_dir data/splits --output_dir outputs/comparison`
-6. **Web app**: `streamlit run src/web/app.py`
+```
+Urbania.pe → Scraping → Auto-label CLIP → Revisión manual → data/raw/
+                                                                  ↓
+                                              python -m src.ml.augment
+                                                                  ↓
+                                         data/splits/ (train: 14,492 / test: 1,520)
+                                                                  ↓
+                                        python -m src.ml.compare_models
+                                                                  ↓
+                                    outputs/comparison/ (modelos, embeddings, métricas)
+                                                                  ↓
+                                              streamlit run src/web/app.py
+```
 
-Los pasos 4-5 se ejecutan automáticamente con `compare_models` si ya tenés los splits listos.
+1. **Scraping** (opcional): Selenium extrae imágenes de Urbania.pe
+2. **Auto-labeling**: CLIP clasifica imágenes en 17 categorías
+3. **Revisión manual + Airbnb**: Se corrigen etiquetas y se agregan imágenes de Airbnb
+4. **Split + Augmentation**: `python -m src.ml.augment` divide train/test y balancea clases
+5. **Entrenar + Evaluar**: `python -m src.ml.compare_models` extrae embeddings, entrena y compara
+6. **Web app**: `streamlit run src/web/app.py`
 
 ## Preprocesamiento por Modelo
 
@@ -241,129 +253,50 @@ python -m src.ml.augment \
     --test_split 0.2
 ```
 
-### 4. Extraer embeddings
+### 4. Entrenar y comparar modelos
 
 ```bash
-# CLIP (ViT-B/32)
-python -m src.ml.extract_embeddings \
-    --data_dir data/splits \
-    --output_dir outputs/embeddings \
-    --model clip
-
-# DINOv2 (ViT-B/14)
-python -m src.ml.extract_embeddings \
-    --data_dir data/splits \
-    --output_dir outputs/embeddings \
-    --model dinov2
-
-# Place365 (ResNet50)
-python -m src.ml.extract_embeddings \
-    --data_dir data/splits \
-    --output_dir outputs/embeddings \
-    --model place365
-```
-
-### 5. Entrenar modelos
-
-```bash
-# Entrenar los 4 modelos (auto-detecta train/test splits: 14,492 train / 1,520 test)
-python -m src.ml.train \
-    --input_dir outputs/embeddings/clip \
-    --output_dir outputs/comparison/models/clip
-
-# Con XGBoost tuning
-python -m src.ml.train \
-    --input_dir outputs/embeddings/clip \
-    --output_dir outputs/comparison/models/clip \
-    --tune_xgboost \
-    --use_gpu
-```
-
-**Artefactos generados en `outputs/comparison/models/`:**
-
-```
-outputs/comparison/models/clip/
-├── best_classifier.joblib        # Pipeline: StandardScaler + Classifier
-├── model_comparison.csv          # Comparación de los 4 classifiers
-└── test_classification_report.csv # Métricas detalladas del mejor modelo
-```
-
-### 6. Evaluar modelo pre-entrenado
-
-```bash
-# Evaluar CLIP (mejor modelo, 89.0% F1)
-python -m src.ml.evaluate --model_dir outputs/comparison/models/clip
-
-# Evaluar DINOv2
-python -m src.ml.evaluate --model_dir outputs/comparison/models/dinov2
-
-# Evaluar Place365
-python -m src.ml.evaluate --model_dir outputs/comparison/models/place365
-```
-
-Los gráficos y métricas se guardan junto al modelo:
-
-```
-outputs/comparison/models/clip/
-├── best_classifier.joblib              ← de compare_models
-├── model_comparison.csv                ← de compare_models
-├── classification_report.csv           ← de compare_models (train)
-├── test_classification_report.csv      ← de evaluate (test completo)
-├── test_per_class_metrics.csv          ← de evaluate (por clase)
-├── confusion_matrix.png                ← de evaluate
-├── confusion_matrix_normalized.png     ← de evaluate
-└── per_class_metrics.png               ← de evaluate
-```
-
-### 7. Comparar modelos (CLIP vs DINOv2 vs Place365)
-
-```bash
+# Extrae embeddings, entrena 4 classifiers por modelo, evalúa y compara
+# Modelos: CLIP, DINOv2, Place365 + CLIP Zero-shot
 python -m src.ml.compare_models \
     --data_dir data/splits \
-    --output_dir outputs/comparison \
-    --models clip dinov2 place365 clip_zeroshot
+    --output_dir outputs/comparison
 ```
+
+Este comando ejecuta automáticamente:
+- Extracción de embeddings (CLIP, DINOv2, Place365)
+- Entrenamiento de 4 classifiers (LogReg, SVM, RF, XGBoost) por modelo
+- Evaluación en test set con métricas por clase
+- Generación de confusion matrices y gráficos
+- Comparación final de todos los modelos
 
 **Artefactos generados en `outputs/comparison/`:**
 
 ```
 outputs/comparison/
-├── model_comparison.csv          # Métricas de todos los modelos (Accuracy, F1, Precision, Recall)
+├── model_comparison.csv          # Métricas de todos los modelos
 ├── comparison.png                # Gráfico de barras comparativo
 ├── embeddings/                   # Embeddings extraídos por modelo
-│   ├── clip/
-│   │   ├── train/                # X_embeddings.npy + y_labels.npy
-│   │   └── test/
-│   ├── dinov2/
-│   │   ├── train/
-│   │   └── test/
-│   └── place365/
-│       ├── train/
-│       └── test/
+│   ├── clip/{train,test}/
+│   ├── dinov2/{train,test}/
+│   └── place365/{train,test}/
 └── models/                       # Clasificadores entrenados por modelo
     ├── clip/
     │   ├── best_classifier.joblib    # SVM RBF (89.0% F1)
     │   ├── model_comparison.csv
-    │   └── test_classification_report.csv
+    │   ├── test_classification_report.csv
+    │   ├── test_per_class_metrics.csv
+    │   ├── confusion_matrix.png
+    │   └── per_class_metrics.png
     ├── dinov2/
     │   ├── best_classifier.joblib    # SVM RBF (88.4% F1)
-    │   ├── model_comparison.csv
-    │   └── test_classification_report.csv
+    │   └── ...
     └── place365/
         ├── best_classifier.joblib    # XGBoost (86.2% F1)
-        ├── model_comparison.csv
-        └── test_classification_report.csv
+        └── ...
 ```
 
-### 8. Detectar objetos con YOLO
-
-```bash
-python -m src.detection.detector \
-    --image data/splits/test/cocina/example.jpg \
-    --model_path models/yolo_furniture/best.pt
-```
-
-### 9. Web app
+### 5. Web app
 
 ```bash
 streamlit run src/web/app.py
@@ -373,6 +306,14 @@ La app permite elegir entre:
 - **Zero-shot CLIP**: Clasificación sin entrenamiento
 - **ML Classifier (SVM)**: Modelo entrenado
 - **ML + YOLO Objects**: SVM + descripción mejorada con objetos detectados
+
+### 6. Detectar objetos con YOLO (complemento)
+
+```bash
+python -m src.detection.detector \
+    --image data/splits/test/cocina/example.jpg \
+    --model_path models/yolo_furniture/best.pt
+```
 
 ## Resultados
 
