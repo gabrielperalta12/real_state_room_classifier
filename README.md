@@ -42,20 +42,14 @@ Urbania.pe (Selenium) → CLIP Auto-label → Augmentation → Train/Test Split
 
 ## Pipeline
 
-Los pasos 4-9 se ejecutan automáticamente con un solo comando:
-
-```bash
-python -m src.ml.compare_models --data_dir data/splits --output_dir outputs/comparison
-```
-
-O individualmente:
-
 1. **Scraping**: Selenium para extraer imágenes de Urbania.pe (carousel, lazy-load)
 2. **Auto-labeling**: CLIP clasifica imágenes y las organiza en carpetas
-3. **Revisión manual + Airbnb**: Revisión manual de carpetas + descarga de imágenes adicionales de Airbnb para complementar clases débiles
-4. **Split train/test + Augmentation**: `python -m src.ml.augment --data_dir data/raw --output_dir data/splits --target_count 700 --test_split 0.2`
+3. **Revisión manual + Airbnb**: Revisión manual de carpetas + descarga de imágenes de Airbnb
+4. **Split + Augmentation**: `python -m src.ml.augment --data_dir data/raw --output_dir data/splits --target_count 700 --test_split 0.2`
 5. **Comparar modelos**: `python -m src.ml.compare_models --data_dir data/splits --output_dir outputs/comparison`
 6. **Web app**: `streamlit run src/web/app.py`
+
+Los pasos 4-5 se ejecutan automáticamente con `compare_models` si ya tenés los splits listos.
 
 ## Preprocesamiento por Modelo
 
@@ -382,15 +376,6 @@ La app permite elegir entre:
 
 ## Resultados
 
-### Comparación de modelos (test split, 17 clases, 1,520 imágenes)
-
-| Modelo | Best Classifier | Accuracy | F1 (weighted) | Precision | Recall |
-|---|---|---:|---:|---:|---:|
-| **CLIP ViT-B/32 + SVM RBF** | SVM RBF | **89.0%** | **0.890** | **0.891** | **0.890** |
-| DINOv2 ViT-B/14 + SVM RBF | SVM RBF | 88.3% | 0.884 | 0.887 | 0.883 |
-| Place365 ResNet50 + XGBoost | XGBoost | 86.2% | 0.862 | 0.864 | 0.862 |
-| CLIP Zero-shot | — | 72.2% | 0.752 | — | — |
-
 ### Métricas por clase (CLIP + SVM RBF, test split)
 
 | Clase | Precision | Recall | F1 | Support |
@@ -435,7 +420,7 @@ La app permite elegir entre:
 | exterior | 34.9% | 58.8% |
 | piscina | 58.2% | 64.1% |
 
-### CLIP vs DINOv2 vs Place365
+### Comparación de modelos (test split, 17 clases, 1,520 imágenes)
 
 | Backbone | Embed dim | Mejor clasificador | Accuracy | F1 | Precision | Recall |
 |---|---:|---|---:|---:|---:|---:|
