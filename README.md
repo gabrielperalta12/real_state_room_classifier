@@ -169,8 +169,6 @@ real_estate_room_classifier/
 
 ## Instalación
 
-### Opción rápida (con datos pre-entrenados)
-
 ```bash
 # 1. Clonar el repo
 git clone https://github.com/gabrielperalta12/real_state_room_classifier.git
@@ -186,23 +184,7 @@ source .venv/bin/activate
 streamlit run src/web/app.py
 ```
 
-### Opción manual (desde cero)
-
-```bash
-# Crear entorno virtual
-python -m venv .venv
-source .venv/bin/activate
-
-# Instalar dependencias
-pip install -r requirements.txt
-
-# Descargar y extraer datos de Google Drive
-# Link: https://drive.google.com/file/d/1g82NR2-zNttrewfwm0NgD9_qlwyAM1wz/view?usp=sharing
-# Descargar project_data.zip y extraer en la raíz del proyecto
-unzip project_data.zip
-```
-
-Requisitos: Python 3.10+, CUDA 13.2 con PyTorch cu126 (torch 2.12.0, torchvision 0.27.0).
+Requisitos: Python 3.10+, CUDA 13.2 con PyTorch cu126.
 
 ## Uso
 
