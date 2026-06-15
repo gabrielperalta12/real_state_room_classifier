@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1600" height="950" viewBox="0 0 1600 950" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f0f1a"/>
+      <stop offset="100%" stop-color="#1a1a2e"/>
+    </linearGradient>
+    <linearGradient id="accent-grad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f97316"/>
+      <stop offset="100%" stop-color="#fb923c"/>
+    </linearGradient>
+    <linearGradient id="card-data" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e3a5f"/>
+      <stop offset="100%" stop-color="#172a45"/>
+    </linearGradient>
+    <linearGradient id="card-embed" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2d1b4e"/>
+      <stop offset="100%" stop-color="#1f1235"/>
+    </linearGradient>
+    <linearGradient id="card-clf" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a4a3a"/>
+      <stop offset="100%" stop-color="#132e24"/>
+    </linearGradient>
+    <linearGradient id="card-app" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4a1942"/>
+      <stop offset="100%" stop-color="#2d1130"/>
+    </linearGradient>
+    <linearGradient id="card-prep" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3d2c0a"/>
+      <stop offset="100%" stop-color="#2a1e06"/>
+    </linearGradient>
+    <linearGradient id="arrow-grad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f97316"/>
+      <stop offset="100%" stop-color="#fbbf24"/>
+    </linearGradient>
+    <linearGradient id="tag-grad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#334155"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="card-shadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000" flood-opacity="0.4"/>
+    </filter>
+    <marker id="arrow-head" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 L2,4 Z" fill="#f97316"/>
+    </marker>
+    <marker id="arrow-head-dim" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 L2,4 Z" fill="#64748b"/>
+    </marker>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+      .title { font-family: Inter, system-ui, sans-serif; font-size: 38px; font-weight: 900; fill: #f8fafc; letter-spacing: -0.5px; }
+      .subtitle { font-family: Inter, system-ui, sans-serif; font-size: 16px; font-weight: 500; fill: #94a3b8; letter-spacing: 0.3px; }
+      .card-label { font-family: Inter, system-ui, sans-serif; font-size: 13px; font-weight: 700; fill: #94a3b8; letter-spacing: 1.5px; text-transform: uppercase; }
+      .card-title { font-family: Inter, system-ui, sans-serif; font-size: 20px; font-weight: 700; fill: #f1f5f9; }
+      .card-text { font-family: Inter, system-ui, sans-serif; font-size: 14.5px; font-weight: 500; fill: #cbd5e1; }
+      .card-detail { font-family: Inter, system-ui, sans-serif; font-size: 12.5px; font-weight: 500; fill: #64748b; }
+      .tag-name { font-family: Inter, system-ui, sans-serif; font-size: 14px; font-weight: 700; fill: #e2e8f0; }
+      .tag-dim { font-family: 'SF Mono', 'Cascadia Code', Consolas, monospace; font-size: 12px; fill: #64748b; }
+      .num { font-family: 'SF Mono', 'Cascadia Code', Consolas, monospace; font-size: 11px; font-weight: 600; fill: #f97316; }
+      .result-text { font-family: Inter, system-ui, sans-serif; font-size: 16px; font-weight: 600; fill: #f1f5f9; }
+      .result-num { font-family: Inter, system-ui, sans-serif; font-size: 22px; font-weight: 900; fill: #f97316; }
+      .result-label { font-family: Inter, system-ui, sans-serif; font-size: 12px; font-weight: 500; fill: #64748b; }
+      .phase { font-family: Inter, system-ui, sans-serif; font-size: 11px; font-weight: 700; fill: #f97316; letter-spacing: 2px; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1600" height="950" fill="url(#bg-grad)"/>
+  <!-- Subtle grid -->
+  <g opacity="0.03" stroke="#fff" stroke-width="1">
+    <line x1="0" y1="0" x2="0" y2="950" x="100"/><line x1="200" y1="0" x2="200" y2="950"/>
+    <line x1="400" y1="0" x2="400" y2="950"/><line x1="600" y1="0" x2="600" y2="950"/>
+    <line x1="800" y1="0" x2="800" y2="950"/><line x1="1000" y1="0" x2="1000" y2="950"/>
+    <line x1="1200" y1="0" x2="1200" y2="950"/><line x1="1400" y1="0" x2="1400" y2="950"/>
+    <line x1="1600" y1="0" x2="1600" y2="950"/>
+    <line x1="0" y1="100" x2="1600" y2="100"/><line x1="0" y1="200" x2="1600" y2="200"/>
+    <line x1="0" y1="300" x2="1600" y2="300"/><line x1="0" y1="400" x2="1600" y2="400"/>
+    <line x1="0" y1="500" x2="1600" y2="500"/><line x1="0" y1="600" x2="1600" y2="600"/>
+    <line x1="0" y1="700" x2="1600" y2="700"/><line x1="0" y1="800" x2="1600" y2="800"/>
+  </g>
+
+  <!-- Top accent line -->
+  <rect x="0" y="0" width="1600" height="3" fill="url(#accent-grad)"/>
+
+  <!-- Header -->
+  <text x="72" y="58" class="title">Indoor Real Estate Room Classifier</text>
+  <text x="72" y="85" class="subtitle">Arquitectura del pipeline: scraping → etiquetado → embeddings → clasificación → app Streamlit</text>
+
+  <!-- Phase labels -->
+  <text x="98" y="130" class="phase">DATA ACQUISITION</text>
+  <text x="438" y="130" class="phase">PREPARATION</text>
+  <text x="798" y="130" class="phase">REPRESENTATION</text>
+  <text x="1198" y="130" class="phase">CLASSIFICATION</text>
+  <text x="1478" y="130" class="phase">DEPLOY</text>
+
+  <!-- Phase dividers -->
+  <line x1="380" y1="135" x2="380" y2="780" stroke="#334155" stroke-width="1" stroke-dasharray="4 6"/>
+  <line x1="740" y1="135" x2="740" y2="780" stroke="#334155" stroke-width="1" stroke-dasharray="4 6"/>
+  <line x1="1150" y1="135" x2="1150" y2="780" stroke="#334155" stroke-width="1" stroke-dasharray="4 6"/>
+  <line x1="1430" y1="135" x2="1430" y2="780" stroke="#334155" stroke-width="1" stroke-dasharray="4 6"/>
+
+  <!-- === CARDS === -->
+
+  <!-- 1. Scraping -->
+  <g filter="url(#card-shadow)">
+    <rect x="80" y="155" width="265" height="170" rx="14" fill="url(#card-data)" stroke="#1e3a5f" stroke-width="1"/>
+    <rect x="80" y="155" width="265" height="4" rx="2" fill="#3b82f6" opacity="0.7"/>
+  </g>
+  <text x="105" y="188" class="card-label">01 · Captura</text>
+  <text x="105" y="218" class="card-title">Scraping de datos</text>
+  <text x="105" y="244" class="card-text">Urbania.pe + Selenium</text>
+  <text x="105" y="268" class="card-text">Carousel / lazy-load</text>
+  <text x="105" y="298" class="card-detail">Imágenes originales por clase</text>
+  <text x="315" y="200" class="num">01</text>
+
+  <!-- 2. Auto-labeling -->
+  <g filter="url(#card-shadow)">
+    <rect x="80" y="350" width="265" height="160" rx="14" fill="url(#card-data)" stroke="#1e3a5f" stroke-width="1"/>
+    <rect x="80" y="350" width="265" height="4" rx="2" fill="#3b82f6" opacity="0.7"/>
+  </g>
+  <text x="105" y="383" class="card-label">02 · Labeling</text>
+  <text x="105" y="413" class="card-title">Auto-labeling CLIP</text>
+  <text x="105" y="439" class="card-text">CLIP zero-shot</text>
+  <text x="105" y="463" class="card-text">Prompts por ambiente</text>
+  <text x="105" y="493" class="card-detail">Organiza imágenes en carpetas</text>
+  <text x="315" y="395" class="num">02</text>
+
+  <!-- 3. Curación -->
+  <g filter="url(#card-shadow)">
+    <rect x="80" y="545" width="265" height="160" rx="14" fill="url(#card-data)" stroke="#1e3a5f" stroke-width="1"/>
+    <rect x="80" y="545" width="265" height="4" rx="2" fill="#3b82f6" opacity="0.7"/>
+  </g>
+  <text x="105" y="578" class="card-label">03 · Curación</text>
+  <text x="105" y="608" class="card-title">Revisión manual</text>
+  <text x="105" y="634" class="card-text">Verificación por humano</text>
+  <text x="105" y="658" class="card-text">Airbnb / clases débiles</text>
+  <text x="105" y="688" class="card-detail">Reduce ruido y sesgo visual</text>
+  <text x="315" y="600" class="num">03</text>
+
+  <!-- 4. Split -->
+  <g filter="url(#card-shadow)">
+    <rect x="420" y="155" width="290" height="160" rx="14" fill="url(#card-prep)" stroke="#92400e" stroke-width="1" opacity="0.9"/>
+    <rect x="420" y="155" width="290" height="4" rx="2" fill="#f59e0b" opacity="0.6"/>
+  </g>
+  <text x="445" y="188" class="card-label">04 · Split</text>
+  <text x="445" y="218" class="card-title">Train / Test split</text>
+  <text x="445" y="244" class="card-text">Separación pre-augmentation</text>
+  <text x="445" y="268" class="card-text">Evita data leakage</text>
+  <text x="445" y="298" class="tag-dim">train: 14,492 · test: 1,520</text>
+  <text x="678" y="188" class="num">04</text>
+
+  <!-- 5. Augmentation -->
+  <g filter="url(#card-shadow)">
+    <rect x="420" y="350" width="290" height="175" rx="14" fill="url(#card-prep)" stroke="#92400e" stroke-width="1" opacity="0.9"/>
+    <rect x="420" y="350" width="290" height="4" rx="2" fill="#f59e0b" opacity="0.6"/>
+  </g>
+  <text x="445" y="383" class="card-label">05 · Augmentation</text>
+  <text x="445" y="413" class="card-title">Data Augmentation</text>
+  <text x="445" y="439" class="card-text">Flip · brillo · contraste</text>
+  <text x="445" y="463" class="card-text">Saturación · blur · crop</text>
+  <text x="445" y="498" class="card-detail">Balanceo: hasta 700 imgs/clase</text>
+  <text x="678" y="395" class="num">05</text>
+
+  <!-- 6. Embeddings -->
+  <g filter="url(#card-shadow)">
+    <rect x="780" y="155" width="340" height="550" rx="14" fill="url(#card-embed)" stroke="#581c87" stroke-width="1"/>
+    <rect x="780" y="155" width="340" height="4" rx="2" fill="#a855f7" opacity="0.6"/>
+  </g>
+  <text x="810" y="188" class="card-label">06 · Embeddings</text>
+  <text x="810" y="218" class="card-title">Backbones de extracción</text>
+  <text x="810" y="248" class="card-detail">Representación vectorial de imágenes</text>
+
+  <!-- CLIP tag -->
+  <rect x="815" y="275" width="290" height="72" rx="10" fill="url(#tag-grad)" stroke="#475569" stroke-width="1"/>
+  <text x="838" y="307" class="tag-name">CLIP ViT-B/32</text>
+  <text x="838" y="327" class="tag-dim">512 dimensiones · OpenAI</text>
+  <circle cx="1073" cy="310" r="16" fill="#a855f7" opacity="0.15"/>
+  <text x="1073" y="314" style="font-family:Inter;font-size:11px;fill:#a855f7;font-weight:700;text-anchor:middle;">CLIP</text>
+
+  <!-- DINOv2 tag -->
+  <rect x="815" y="365" width="290" height="72" rx="10" fill="url(#tag-grad)" stroke="#475569" stroke-width="1"/>
+  <text x="838" y="397" class="tag-name">DINOv2 ViT-B/14</text>
+  <text x="838" y="417" class="tag-dim">768 dimensiones · Meta</text>
+  <circle cx="1073" cy="400" r="16" fill="#6366f1" opacity="0.15"/>
+  <text x="1073" y="404" style="font-family:Inter;font-size:11px;fill:#6366f1;font-weight:700;text-anchor:middle;">DINO</text>
+
+  <!-- Place365 tag -->
+  <rect x="815" y="455" width="290" height="72" rx="10" fill="url(#tag-grad)" stroke="#475569" stroke-width="1"/>
+  <text x="838" y="487" class="tag-name">Place365 ResNet50</text>
+  <text x="838" y="507" class="tag-dim">2048 dimensiones · MIT</text>
+  <circle cx="1073" cy="490" r="16" fill="#06b6d4" opacity="0.15"/>
+  <text x="1073" y="494" style="font-family:Inter;font-size:11px;fill:#06b6d4;font-weight:700;text-anchor:middle;">MIT</text>
+
+  <!-- Output label -->
+  <text x="810" y="570" class="card-detail">Salida: archivos de embeddings</text>
+  <text x="810" y="590" class="card-detail">train/test por backbone</text>
+
+  <!-- 7. Clasificación -->
+  <g filter="url(#card-shadow)">
+    <rect x="1190" y="155" width="215" height="160" rx="14" fill="url(#card-clf)" stroke="#065f46" stroke-width="1"/>
+    <rect x="1190" y="155" width="215" height="4" rx="2" fill="#10b981" opacity="0.6"/>
+  </g>
+  <text x="1213" y="188" class="card-label">07 · Clasificar</text>
+  <text x="1213" y="218" class="card-title">ML Classifiers</text>
+  <text x="1213" y="244" class="card-text">SVM · LogReg</text>
+  <text x="1213" y="268" class="card-text">RF · XGBoost</text>
+  <text x="1213" y="298" class="card-detail">Selección del mejor</text>
+  <text x="1375" y="188" class="num">07</text>
+
+  <!-- 8. Evaluación -->
+  <g filter="url(#card-shadow)">
+    <rect x="1190" y="350" width="215" height="165" rx="14" fill="url(#card-clf)" stroke="#065f46" stroke-width="1"/>
+    <rect x="1190" y="350" width="215" height="4" rx="2" fill="#10b981" opacity="0.6"/>
+  </g>
+  <text x="1213" y="383" class="card-label">08 · Evaluar</text>
+  <text x="1213" y="413" class="card-title">Evaluación</text>
+  <text x="1213" y="439" class="card-text">Accuracy · F1 · Recall</text>
+  <text x="1213" y="463" class="card-text">Confusion matrices</text>
+  <text x="1213" y="498" class="card-detail">Comparación CLIP/DINO/Place</text>
+  <text x="1375" y="395" class="num">08</text>
+
+  <!-- 9. Streamlit App -->
+  <g filter="url(#card-shadow)">
+    <rect x="1455" y="155" width="120" height="375" rx="14" fill="url(#card-app)" stroke="#86198f" stroke-width="1"/>
+    <rect x="1455" y="155" width="120" height="4" rx="2" fill="#d946ef" opacity="0.6"/>
+  </g>
+  <text x="1483" y="188" class="card-label" style="writing-mode:horizontal-tb;">09 · App</text>
+  <text x="1483" y="220" style="font-family:Inter;font-size:16px;font-weight:800;fill:#f1f5f9;">Streamlit</text>
+  <text x="1483" y="248" style="font-family:Inter;font-size:13px;font-weight:600;fill:#cbd5e1;">3 modos:</text>
+  <text x="1483" y="278" style="font-family:Inter;font-size:12px;font-weight:500;fill:#d8b4fe;">Zero-shot</text>
+  <text x="1483" y="300" style="font-family:Inter;font-size:12px;font-weight:500;fill:#d8b4fe;">ML Classifier</text>
+  <text x="1483" y="322" style="font-family:Inter;font-size:12px;font-weight:500;fill:#d8b4fe;">ML + YOLO</text>
+
+  <!-- YOLO Complement -->
+  <g filter="url(#card-shadow)">
+    <rect x="780" y="740" width="340" height="85" rx="14" fill="url(#card-embed)" stroke="#581c87" stroke-width="1" opacity="0.8"/>
+    <rect x="780" y="740" width="340" height="3" rx="1.5" fill="#a855f7" opacity="0.4"/>
+  </g>
+  <text x="810" y="773" class="card-title" style="font-size:17px;">Complemento YOLO11</text>
+  <text x="810" y="797" class="card-text">Detección de 24 muebles/objetos</text>
+  <text x="810" y="813" class="card-detail">Enriquece la explicación de la predicción</text>
+
+  <!-- Result card -->
+  <g filter="url(#card-shadow)">
+    <rect x="80" y="740" width="640" height="85" rx="14" fill="url(#card-data)" stroke="#1e3a5f" stroke-width="1"/>
+    <rect x="80" y="740" width="640" height="3" rx="1.5" fill="url(#accent-grad)" opacity="0.8"/>
+  </g>
+  <text x="108" y="773" class="card-label">RESULTADO PRINCIPAL</text>
+  <text x="108" y="800" class="result-text">CLIP ViT-B/32 + SVM RBF alcanza </text>
+  <text x="460" y="804" class="result-num">89.0%</text>
+  <text x="550" y="800" class="result-text">Accuracy / F1 weighted en 17 clases</text>
+
+  <!-- Classes footer -->
+  <g opacity="0.5">
+    <rect x="80" y="855" width="1495" height="35" rx="8" fill="#1e293b" opacity="0.5"/>
+    <text x="105" y="878" style="font-family:Inter;font-size:11.5px;font-weight:500;fill:#64748b;letter-spacing:0.5px;">17 clases: sala · cocina · dormitorio · baño · comedor · lavandería · balcón · terraza · gimnasio · exterior · oficina · jardín · parking · pasadizo · recepción · walking closet · piscina</text>
+  </g>
+
+  <!-- === ARROWS (curved, modern) === -->
+  <!-- 1→2 vertical -->
+  <path d="M212 325 C212 338 212 342 212 350" stroke="#3b82f6" stroke-width="2" fill="none" marker-end="url(#arrow-head)" opacity="0.7"/>
+  <!-- 2→3 vertical -->
+  <path d="M212 510 C212 523 212 532 212 545" stroke="#3b82f6" stroke-width="2" fill="none" marker-end="url(#arrow-head)" opacity="0.7"/>
+
+  <!-- 1→4 horizontal (curved) -->
+  <path d="M345 240 C370 240 380 240 420 240" stroke="url(#arrow-grad)" stroke-width="2.5" fill="none" marker-end="url(#arrow-head)" filter="url(#glow)"/>
+  <!-- 3→5 horizontal (curved) -->
+  <path d="M345 625 C370 625 380 437 420 437" stroke="url(#arrow-grad)" stroke-width="2.5" fill="none" marker-end="url(#arrow-head)" filter="url(#glow)"/>
+
+  <!-- 4→vertical split join -->
+  <path d="M565 315 C565 332 565 338 565 350" stroke="#f59e0b" stroke-width="2" fill="none" marker-end="url(#arrow-head)" opacity="0.6"/>
+
+  <!-- 5→6 (main flow, big curved) -->
+  <path d="M710 437 C740 437 760 360 780 340" stroke="url(#arrow-grad)" stroke-width="3" fill="none" marker-end="url(#arrow-head)" filter="url(#glow)"/>
+
+  <!-- 6→7 -->
+  <path d="M1120 280 C1150 280 1160 240 1190 240" stroke="url(#arrow-grad)" stroke-width="2.5" fill="none" marker-end="url(#arrow-head)" filter="url(#glow)"/>
+
+  <!-- 7→8 vertical -->
+  <path d="M1297 315 C1297 332 1297 338 1297 350" stroke="#10b981" stroke-width="2" fill="none" marker-end="url(#arrow-head)" opacity="0.6"/>
+
+  <!-- 8→9 -->
+  <path d="M1405 432 C1420 432 1430 350 1455 320" stroke="#d946ef" stroke-width="2" fill="none" marker-end="url(#arrow-head)" opacity="0.6"/>
+
+  <!-- YOLO dashed to embeddings -->
+  <path d="M950 740 C950 710 950 700 950 695" stroke="#a855f7" stroke-width="1.5" fill="none" stroke-dasharray="6 4" marker-end="url(#arrow-head-dim)" opacity="0.5"/>
+
+  <!-- YOLO dashed to app -->
+  <path d="M1120 782 C1180 782 1420 600 1515 530" stroke="#a855f7" stroke-width="1.5" fill="none" stroke-dasharray="6 4" marker-end="url(#arrow-head-dim)" opacity="0.4"/>
+</svg>

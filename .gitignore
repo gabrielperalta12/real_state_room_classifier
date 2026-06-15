@@ -1,0 +1,55 @@
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Environment variables
+.env
+
+# ─── Pretrained models (downloadable by ultralytics) ──────────────────
+# Base models saved in project root by ultralytics
+yolo11n.pt
+yolo26n.pt
+
+# ─── LaTeX build artifacts ────────────────────────────────────────────
+report/paper_ieee/paper.aux
+report/paper_ieee/paper.log
+report/presentation/presentation.aux
+report/presentation/presentation.log
+report/presentation/presentation.nav
+report/presentation/presentation.out
+report/presentation/presentation.snm
+report/presentation/presentation.toc
+
+# ─── Data (too large for git) ────────────────────────────────────────
+data/raw/
+data/splits/
+data/scrapped/
+data/pending_review/
+data/yolo/
+data/processed/
+data/preprocessed/
+data/auto_label_report.csv
+
+# ─── Models (large binaries) ─────────────────────────────────────────
+models/
+models_balanced/
+
+# ─── Outputs ──────────────────────────────────────────────────────────
+outputs/
+
+# ─── External datasets ────────────────────────────────────────────────
+Furniture-Identifier-1/
+
+# ─── Keep empty folders ───────────────────────────────────────────────
+!data/.gitkeep
+!data/raw/.gitkeep
+!data/splits/.gitkeep
+!data/scrapped/.gitkeep
+!data/pending_review/.gitkeep
+!models/.gitkeep
+!outputs/.gitkeep
